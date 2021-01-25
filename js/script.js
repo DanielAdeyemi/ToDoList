@@ -3,6 +3,8 @@ function ToDoList() {
   this.currentId = 0;
 }
 
+let firstList = new ToDoList();
+
 function Item(name, desc) {
   this.name = name;
   this.desc = desc;
@@ -20,19 +22,35 @@ ToDoList.prototype.assignId = function() {
   return sendId;
 }
 
-let firstList = new ToDoList();
+
+
 
 // let item = new Item("wash car", "go outside and wash car");
-
 // firstList.addItem(item);
+function output(name, desc) {
+  let item = new Item(name, desc);
+  firstList.addItem(item);
+}
 
-// console.log(firstList.items[0])
-// firstList.items[0].done = true
-// console.log(firstList.items[0])
+function drawListToHtml() {
+  $("#listDisplay ol").empty()
+
+  Object.values(firstList.items).forEach(function(value) {
+    $("#listDisplay ol").append(`<li>${value['name']}</li>`)
+  });
+
+};
+//clear html ol
+//iterate through ToDoList.items and refill ol
+
 
 $(document).ready(function() {
-  $("form").click(function(event) {
+  $("#listAdd form").submit(function(event) {
     event.preventDefault();
-    console.log("submit");
+    let name = $("#name").val();
+    let desc = $("#desc").val();
+    output(name, desc);
+    drawListToHtml();
+    $("form")[0].reset();
   });
 });
