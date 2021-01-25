@@ -22,11 +22,11 @@ ToDoList.prototype.assignId = function() {
   return sendId;
 }
 
+ToDoList.prototype.remove = function(id) {
+  delete this.items[id];
+  return true;
+}
 
-
-
-// let item = new Item("wash car", "go outside and wash car");
-// firstList.addItem(item);
 function output(name, desc) {
   let item = new Item(name, desc);
   firstList.addItem(item);
@@ -36,13 +36,18 @@ function drawListToHtml() {
   $("#listDisplay ol").empty()
 
   Object.values(firstList.items).forEach(function(value) {
-    $("#listDisplay ol").append(`<li>${value['name']}</li>`)
+    $("#listDisplay ol").append(`<li><input type="checkbox">${value['name']}<button id="${value.id}" class="remove">Remove</button></li>`)
   });
-
+  bindRemove();
 };
-//clear html ol
-//iterate through ToDoList.items and refill ol
 
+function bindRemove() {
+  $("button.remove").click(function() {
+    let idClicked = $(this).attr("id");
+    firstList.remove(idClicked);
+    drawListToHtml();
+  });
+}
 
 $(document).ready(function() {
   $("#listAdd form").submit(function(event) {
