@@ -22,10 +22,17 @@ ToDoList.prototype.assignId = function() {
 
 let firstList = new ToDoList();
 
-let item = new Item("wash car", "go outside and wash car");
+// let item = new Item("wash car", "go outside and wash car");
 
-firstList.addItem(item);
+// firstList.addItem(item);
 
-console.log(firstList.items[0])
-firstList.items[0].done = true
-console.log(firstList.items[0])
+// console.log(firstList.items[0])
+// firstList.items[0].done = true
+// console.log(firstList.items[0])
+
+$(document).ready(function() {
+  $("form").click(function(event) {
+    event.preventDefault();
+    console.log("submit");
+  });
+});
