@@ -36,16 +36,33 @@ function drawListToHtml() {
   $("#listDisplay ol").empty()
 
   Object.values(firstList.items).forEach(function(value) {
-    $("#listDisplay ol").append(`<li><input type="checkbox">${value['name']}<button id="${value.id}" class="remove">Remove</button></li>`)
+    $("#listDisplay ol").append(`<li id="${value.id}"><input name="toDoItems" class="check" type="checkbox" ${value.done ? "checked" : ""}>${value['name']}<button class="remove">Remove</button></li>`)
+
   });
+  $("li").each(function() {
+    $(this).css("background-color", ($(this).children("input").is(":checked")) ? "green" : "inherit"); //leave selected boxes green after removing items
+  });
+
   bindRemove();
+  bindDone();
 };
+
+
 
 function bindRemove() {
   $("button.remove").click(function() {
-    let idClicked = $(this).attr("id");
+    let idClicked = $(this).parent().attr("id");
+    console.log(idClicked);
     firstList.remove(idClicked);
     drawListToHtml();
+  });
+}
+
+function bindDone() {
+  $(".check").click(function() {
+    let checkedId = $(this).parent().attr("id");
+    firstList.items[checkedId].done = ($(this).is(":checked")) //is will return true/false
+    $(this).parent().css("background-color", ($(this).is(":checked")) ? "green" : "inherit");
   });
 }
 
